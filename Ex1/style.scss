@@ -126,14 +126,17 @@ body {
 }
 
 .title-orange {
+  @extend .box-header-title;
   background-color: orange;
 }
 
 .title-blue {
+  @extend .box-header-title;
   background-color: skyblue;
 }
 
 .title-pink {
+  @extend .box-header-title;
   background-color: pink;
 }
 

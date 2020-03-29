@@ -102,7 +102,7 @@ body {
   display: table;
 }
 
-.box-header-title {
+.box-header-title, .title-pink, .title-blue, .title-orange {
   float: right;
   padding: 5px 30px;
   border-bottom: 2px solid black;
