@@ -1,0 +1,167 @@
+$base-font-size: 16px;
+$primary-color: #E2FFCC;
+
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  font-size: $base-font-size;
+  margin-bottom: 80px;
+}
+
+.header {
+  padding: 1em;
+  display: flex;
+  justify-content: space-between;
+}
+
+.header-name {
+  display: flex;
+}
+
+.header-text {
+  flex: 1;
+  line-height: 50px;
+  font-family: "Open Sans", monospace;
+  font-size: 200%;
+  font-weight: 400;
+}
+
+.header-logo {
+  background-image: url("logo.jpg");
+  width: 50px;
+  height: 50px;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.header-navbar {
+  list-style: none;
+  display: block;
+
+  li {
+    display: inline;
+    margin: 0 10px;
+    color: grey;
+  }
+
+}
+
+@media only screen and (min-width: 1025px) {
+  .header-hamburger {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 601px) and (max-width: 1024px) {
+  .header-navbar {
+    display: none !important;
+  }
+
+  .container:nth-child(1) {
+    min-width: fit-content;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .header-navbar, .header-text {
+    display: none !important;
+  }
+
+  .container:nth-child(1) {
+    min-width: fit-content;
+  }
+}
+
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: $primary-color;
+  padding: 20px 0;
+  border-top: 2px solid black;
+  text-align: center;
+}
+
+.footer-author {
+  font-weight: 600;
+}
+
+.container {
+  display: flex;
+  flex-shrink: 1;
+  flex-wrap: wrap;
+}
+
+.box {
+  flex: 1;
+  min-width: 250px;
+  margin: 10px;
+  border: 2px solid black;
+  background-color: $primary-color;
+}
+
+.box-header::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.box-header-title {
+  float: right;
+  padding: 5px 30px;
+  border-bottom: 2px solid black;
+  border-left: 2px solid black;
+  font-weight: 500;
+  font-size: 150%;
+}
+
+.box-content {
+  padding: 20px;
+}
+
+.title-orange {
+  background-color: orange;
+}
+
+.title-blue {
+  background-color: skyblue;
+}
+
+.title-pink {
+  background-color: pink;
+}
+
+.header-hamburger {
+  padding: 7px;
+  width: 35px;
+  background-color: $primary-color;
+  border-radius: 20px;
+  border: 2px solid black;
+}
+
+.header-hamburger:after,
+.header-hamburger:before,
+.header-hamburger div {
+  border-radius: 3px;
+  content: '';
+  display: block;
+  height: 2px;
+  margin: 6px 0;
+}
+
+.header-hamburger:after,
+.header-hamburger:before {
+  transform: none;
+  margin: 7px 0;
+  background-color: black;
+}
+
+.header-hamburger div {
+  background-color: black;
+}
