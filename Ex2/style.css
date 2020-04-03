@@ -1,0 +1,40 @@
+.table {
+    width: 100%;
+}
+
+.table-stripped tbody tr:nth-child(odd){
+    background-color: #cccccc;
+}
+
+.table-stripped tbody tr td {
+    font-weight: 400;
+    padding: 5px;
+}
+
+.btn-save {
+    display: none;
+}
+
+.editable .btn-save {
+    display: inline-block;
+}
+
+.editable .btn-edit {
+    display: none;
+}
+
+td input {
+    display: none;
+}
+
+.editable td input {
+    display: inline-block;
+}
+
+td a {
+    display: inline-block;
+}
+
+.editable td a {
+    display: none;
+}
