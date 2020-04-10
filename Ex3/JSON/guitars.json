@@ -1,0 +1,25 @@
+{
+  "Guitars": {
+    "Guitar": [{
+        "Brand": "Gibson",
+        "Model": "Les Paul"
+      },
+      {
+        "Brand": "Fender",
+        "Model": "Stratocaster"
+      },
+      {
+        "Brand": "Charvel",
+        "Model": "Guthrie Govan"
+      },
+      {
+        "Brand": "Ibanez",
+        "Model": "AZ224F"
+      },
+      {
+        "Brand": "Tyler",
+        "Model": "Burning Water"
+      }
+    ]
+  }
+}

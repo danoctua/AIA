@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <style>
+  </style>
+
+  <script type="text/javascript">
+    $(function() {
+      $("#loadJSON").click(function() {
+        $.getJSON("guitars.json", function(data) {
+          var list = [];
+
+          for (var i = 0; i < data.Guitars.Guitar.length; i++) {
+            $.each(data.Guitars.Guitar[i], function(key, val) {
+              list.push("<li>" + key + " - " + val + "</li>");
+            });
+          }
+
+          $("#guitar_list").append("<ul>"+items.join("")+"</ul>");
+        });
+      });
+    });
+  </script>
+</head>
+
+<body>
+  <div id="guitar_list"></div>
+  <button id="loadJSON">Upload guitar list</button>
+</body>
+
+</html>

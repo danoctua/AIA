@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>jQuery</title>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      $('button:contains(\'A\')').click(function() {
+        $('#classic').addClass('asdf');
+      });
+      $('button:contains(\'B\')').click(function() {
+        $('#classic').removeClass('asdf');
+      });
+      $('button:contains(\'C\')').click(function() {
+        $('#toggle').toggleClass('asdf');
+      });
+      $('tr:even').addClass('asdf');
+
+      // 9
+      $('ol.a li:not(.b:has(a))');
+    });
+  </script>
+  <style>
+    .asdf {
+      background: Pink;
+    }
+  </style>
+</head>
+
+<body>
+  <table>
+    <tr>
+      <td>First</td>
+    </tr>
+    <tr>
+      <td>Second</td>
+    </tr>
+    <tr>
+      <td>Third</td>
+    </tr>
+    <tr>
+      <td>Fourth</td>
+    </tr>
+    <tr>
+      <td>Fifth</td>
+    </tr>
+    <tr>
+      <td>Sixth</td>
+    </tr>
+  </table>
+  <div><button>Text A</button><button>Text B</button><span id="classic">Adding/removing
+      class</span></div>
+  <div><button>Text C</button><span id="toggle">Toggling class</span></div>
+</body>
+
+</html>

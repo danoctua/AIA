@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <script type="text/javascript"
+    src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript">
+    $(function () {
+        var makeRequest = function(){
+            var req = new XMLHttpRequest();
+            return new Promise(function(resolve, reject){
+                req.onreadystatechange = function(){
+                  // check if state is DONE
+                    if(req.readyState != 4) return;
+                    // and
+                    if(req.status == 200){
+                        resolve(req);
+                    }else{
+                        reject({
+                            status: req.status,
+                            statusText: req.statusText
+                        });
+                    }
+                };
+
+                req.onerror = function(){
+                  reject(Error("Network error"))
+                }
+                let url = $('#promiseInput').val();
+                req.open("GET", url, true);
+                req.send();
+            });
+        };
+        $('#trigger').click(function () {
+            makeRequest()
+                .then(function (posts){
+                    $('#content').html(posts.responseText);
+                })
+                .catch(function(error){
+                    $('#content').html(error.responseText);
+                })
+        });
+    });
+ </script>
+ <title>Promises</title>
+</head>
+<body>
+  <h1>Enter URL to collect data from</h1>
+  <a>URL:</a>
+    <input id="promiseInput">
+    <button id="trigger">Hit me</button>
+    <h2>Result</h2>
+    <div id="content"></div>
+</body>
+</html>
