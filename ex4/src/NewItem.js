@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import add from './icon/add.png'
 import './App.css';
 
 
