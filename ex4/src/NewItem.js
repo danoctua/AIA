@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import './App.css';
 
 
@@ -28,9 +27,9 @@ class NewItem extends React.Component{
     }
 
     newPhone = () => {
-        if (this.state.brand == "" ||
-            this.state.model == "" ||
-            this.state.rating == ""){
+        if (this.state.brand === "" ||
+            this.state.model === "" ||
+            this.state.rating === ""){
               return
             }
         this.setState((prevState) => {

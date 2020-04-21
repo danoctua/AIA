@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import NewItem from './NewItem';
 import SearchItem from './SearchItem';
@@ -24,6 +23,34 @@ class App extends React.Component {
     })
   }
 
+  decreaseRating = (id) => {
+    this.setState(prevState => {
+      const updatedItems = prevState.items.map(item => {
+        if (item.id === id) {
+          if(item.rating > 0){
+            item.rating = item.rating - 0.5
+          }
+        }
+        return item
+      })
+      return{item: updatedItems }
+    })
+  }
+
+  increaseRating = (id) => {
+    this.setState(prevState => {
+      const updatedItems = prevState.items.map(item => {
+        if (item.id === id) {
+          if(item.rating < 150){
+            item.rating = item.rating + 0.5
+          }
+        }
+        return item
+      })
+      return{item: updatedItems }
+    })
+  }
+
   addItem = (newItem) =>{
 
     newItem.id = this.state.lastIndex + 1
@@ -38,11 +65,10 @@ class App extends React.Component {
   }
 
   searchItem = (showItem) =>{
-    console.log("searchItem: " + showItem)
     this.setState(prevState => {
       const updatedItems = prevState.items.map(item => {
         const myReg = new RegExp(showItem, 'i')
-        if ((item.brand+" "+item.model).match(myReg) === null && showItem !== "") {
+        if (showItem !== "" && (item.brand+" "+item.model).match(myReg) === null) {
             item.show = false
         }
         else{
@@ -57,7 +83,7 @@ class App extends React.Component {
 
   sortByName = () =>{
     this.setState(prevState => {
-      const sortedList = this.state.items.sort((a, b) => (a.brand + a.model > b.brand + b.model) ? 1 : -1)
+      const sortedList = this.state.items.sort((a, b) => ((a.brand + a.model).toLowerCase() > (b.brand + b.model).toLowerCase()) ? 1 : -1)
       return {item: sortedList }
     })
   }
@@ -69,14 +95,14 @@ class App extends React.Component {
     })
   }
 
-  sortByVolumes = () =>{
+  sortByRating = () =>{
     this.setState(prevState => {
       const sortedList = this.state.items.sort((a, b) => (a.rating > b.rating) ? 1 : -1)
       return {item: sortedList }
     })
   }
 
-  sortByVolumesDesc = () =>{
+  sortByRatingDesc = () =>{
     this.setState(prevState => {
       const sortedList = this.state.items.sort((a, b) => (a.rating < b.rating) ? 1 : -1)
       return {item: sortedList }
@@ -96,17 +122,15 @@ class App extends React.Component {
           <SortItem
           sortByName={this.sortByName}
           sortByNameDesc={this.sortByNameDesc}
-          sortByDescription={this.sortByDescription}
-          sortByDescriptionDesc={this.sortByDescriptionDesc}
-          sortByVolumes={this.sortByVolumes}
-          sortByVolumesDesc={this.sortByVolumesDesc}
+          sortByRating={this.sortByRating}
+          sortByRatingDesc={this.sortByRatingDesc}
           />
           </div>
 
 
           <ItemsList items={this.state.items}
-          //   incrementVolumes={this.incrementVolumes}
-          //   decrementVolumes={this.decrementVolumes}
+            increaseRating={this.increaseRating}
+            decreaseRating={this.decreaseRating}
             deleteItem={this.deleteItem}
           />
 

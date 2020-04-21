@@ -1,7 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import './App.css';
-import trash from './icon/trash.png'
 
 class Item extends React.Component{
 
@@ -10,15 +8,18 @@ class Item extends React.Component{
         return(
             <div className="listItem">
               <div className="listItemIcon">
-                <img src={this.props.src}/>
+                <img src={this.props.src} alt=""/>
               </div>
               <div className="listItemBody">
               <div className="listItemHeader">
                   {this.props.brand} {this.props.model}
-                  <a className="listItemRating">DXOmark rating: {this.props.rating}</a>
+                  <span className="listItemRating">DXOmark rating: {this.props.rating}
+                  <button className="ratingButton decrease" onClick={this.props.decreaseRating.bind(this, this.props.id)}></button>
+                  <button className="ratingButton increase" onClick={this.props.increaseRating.bind(this, this.props.id)}></button>
+                  </span>
                 </div>
                 <div className="listItemDescription">
-                  {this.props.description != "" ?
+                  {this.props.description !== "" ?
                     this.props.description : "no description"
                   }
                 </div>

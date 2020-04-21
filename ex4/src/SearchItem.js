@@ -1,14 +1,10 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import './App.css';
 
 class SearchItem extends React.Component{
 
     constructor(){
         super()
-        this.state = {
-          searchName: ""
-        }
         this.handleChange = this.handleChange.bind(this)
     }
 
@@ -17,9 +13,6 @@ class SearchItem extends React.Component{
         this.setState({
             [name]: value
         })
-
-        console.log("SearchHandle: " + this.state.searchName)
-
         this.props.searchItem(value)
     }
 
@@ -29,7 +22,6 @@ class SearchItem extends React.Component{
                 <div className="divSearchPhone">
                     <input name="searchPhone"
                         placeholder="Search"
-                        value={this.state.searchName}
                         onChange={this.handleChange}
                         className="searchInput"
                         />
