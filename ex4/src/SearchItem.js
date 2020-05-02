@@ -1,9 +1,9 @@
 import React from 'react';
 import './App.css';
 
-class SearchItem extends React.Component{
+class SearchItem extends React.Component {
 
-    constructor(){
+    constructor() {
         super()
         this.handleChange = this.handleChange.bind(this)
     }
@@ -17,20 +17,18 @@ class SearchItem extends React.Component{
     }
 
 
-    render(){
-        return(
-                <div className="divSearchPhone">
-                    <input name="searchPhone"
-                        placeholder="Search"
-                        onChange={this.handleChange}
-                        className="searchInput"
-                        />
-                </div>
+    render() {
+        return (
+            <div className="divSearchPhone">
+                <input name="searchPhone"
+                       placeholder="Search"
+                       onChange={this.handleChange}
+                       className="searchInput"
+                />
+            </div>
 
         )
     }
-
-
 
 
 }
