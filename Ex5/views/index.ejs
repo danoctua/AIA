@@ -3,8 +3,10 @@
 <head>
     <meta charset="utf-8">
     <title>Phone store</title>
-    <meta name="description" content="Phone store">
-    <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600&display=swap&subset=cyrillic,cyrillic-ext">
+
     <script>
     </script>
 
@@ -13,47 +15,57 @@
 <body>
 
 <div class="navbar">
-    <div class="logo"></div>
+    <div class="logo-icon-block">
+        <a href="/" class="logo-button"></a>
+    </div>
     <div class="cart-icon-block">
-        <button class="cart-button"></button>
+        <a href="/cart" class="cart-button"></a>
     </div>
 </div>
 
+<% if (alert) { %>
+    <div class="alert <% if (alert_type) { %><%= alert_type %><% } %>">
+        <%= alert %>
+    </div>
+<% } %>
+
 <div class="header">
-    Find the phone for yourself
+    Find phone for yourself
 </div>
 
 <div class="container">
 
-    <% if (alert) { %>
-        <div class="alert">
-            <%= alert %>
-        </div>
-    <% } %>
 
-<!--    <ul class="list">-->
-<!--        <% mangas.forEach(function(manga){ %>-->
-<!--            -->
-<!--        -->
-<!--        -->
-<!--        -->
-<!--            <li>-->
-<!--                <div>-->
-<!--                    <%= manga._id %>-->
-<!--                </div>-->
-<!--                <div>-->
-<!--                    <%= manga.name %>-->
-<!--                </div>-->
-<!--                <div>-->
-<!--                    <form method="POST" action="/add">-->
-<!--                        <input hidden type="text" name="mangaId" value=<%= manga._id %>>-->
-<!--                        <input hidden type="text" name="mangaName" value=<%= manga.name %>>-->
-<!--                        <button class="addButton" class="btn btn-primary">Add</button>-->
-<!--                    </form>-->
-<!--                </div>-->
-<!--            </li>-->
-<!--        <% }); %>-->
-<!--    </ul>-->
+    <div class="ItemsContainer">
+        <% if (!items.length) { %>
+            <div class="no-content"></div>
+        <% } %>
+        <% items.forEach(function(item){ %>
+            <div class="listItem">
+                <div class="listItemIcon">
+                    <img src=<%= item.img_src %> alt=""/>
+                </div>
+                <div class="listItemBody">
+                    <div class="listItemHeader">
+                        <%= item.brand %> <%= item.model %>
+                        <span class="listItemRating">DXOmark rating: <%= item.rating %>
+                  </span>
+                    </div>
+                    <div class="listItemDescription">
+                        <%= item.description %>
+                    </div>
+                </div>
+                <form method="post" class="listItemAction">
+                    <% if (!(item.item_no in local_cart)) { %>
+                        <button class="buttonPng buttonAdd" name="addToCart" value="<%= item.item_no %>"></button>
+                    <% }else { %>
+                        <button disabled class="buttonPng buttonDone"></button>
+
+                    <% } %>
+                </form>
+            </div>
+        <% }); %>
+    </div>
 
 </div>
 </body>

@@ -1,0 +1,202 @@
+html {
+    margin-top: 50px;
+    background-color: whitesmoke;
+}
+
+body {
+    margin: 0;
+    font-family: "Open Sans", monospace;
+}
+
+
+.navbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background-color: #4b4b4b;
+    display: flex;
+    justify-content: space-between;
+}
+
+.logo-icon-block {
+    flex: none;
+    width: 70px;
+    height: 50px;
+}
+
+.logo-button {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    background-image: url("logo.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding: 5px 10px;
+    background-origin: content-box;
+}
+
+.logo-button:hover {
+    background-color: #636363;
+}
+
+.cart-icon-block {
+    flex: none;
+    width: 50px;
+    height: 50px;
+}
+
+.cart-button {
+    display: inline-block;
+    height: 40px;
+    width: 40px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    background-image: url("cart.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding: 5px;
+    background-origin: content-box;
+    transition: .3s;
+    filter: invert(.7);
+    cursor: pointer;
+}
+
+.cart-button:hover {
+    background-color: #d2d2d2;
+}
+
+
+.header {
+    font-size: 40px;
+    color: #4b4b4b;
+    font-weight: 600;
+    padding: 40px 50px;
+}
+
+
+.buttonPng {
+    width: 40px;
+    height: 40px;
+    padding: 4px;
+    background-size: cover;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-origin: content-box;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    border-radius: 15px;
+    transition: .3s;
+}
+
+.buttonPng:hover:not("disabled") {
+    background-color:    #d4d4d4;
+}
+
+.buttonAdd {
+    background-image: url("cart.png");
+}
+
+.buttonDelete {
+    background-image: url("bin.png");
+}
+
+.buttonDone {
+    background-image: url("done.png");
+}
+
+.ItemsContainer {
+    width: 80%;
+    margin: auto;
+    padding-bottom: 100px;
+}
+
+.listItem {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-shrink: 0;
+    width: 100%;
+    justify-content: space-between;
+    margin: 25px 0;
+    border: 1px solid grey;
+    padding: 15px;
+    border-radius: 10px
+}
+
+.listItemIcon {
+    flex: none;
+    width: 150px;
+}
+
+.listItemIcon img {
+    width: 150px;
+    height: auto;
+}
+
+.listItemBody {
+    flex: 1;
+    display: block;
+    padding: 0 10px;
+    font-size: 16px;
+}
+
+.listItemHeader {
+    display: block;
+    font-size: 24px;
+    font-weight: 600;
+    padding-bottom: 10px;
+}
+
+
+.listItemRating {
+    display: block;
+    font-size: 18px;
+    color: grey;
+}
+
+.listItemDescription {
+    color: #4b4b4b
+}
+
+
+.toolsContainer {
+
+    display: flex;
+    justify-content: space-between;
+}
+
+.sortMenu a {
+    margin: 0 10px;
+}
+
+.no-content:before {
+    content: "No content";
+
+}
+
+.alert {
+    padding: 15px;
+    height: fit-content;
+}
+
+.alert.success {
+    background-color: #278227;
+    color: white;
+}
+
+.alert.danger {
+    background-color: #bf2916;
+    color: white;
+}
+
+.alert.warning {
+    background-color: #adaa1c;
+    color: white;
+}
+

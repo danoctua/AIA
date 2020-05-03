@@ -1,0 +1,69 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Your cart</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600&display=swap&subset=cyrillic,cyrillic-ext">
+
+    <script>
+    </script>
+
+</head>
+
+<body>
+
+<div class="navbar">
+    <div class="logo-icon-block">
+        <a href="/" class="logo-button"></a>
+    </div>
+    <div class="cart-icon-block">
+        <a href="/cart" class="cart-button"></a>
+    </div>
+</div>
+
+<% if (alert) { %>
+        <div class="alert <% if (alert_type) { %><%= alert_type %><% } %>">
+            <%= alert %>
+        </div>
+    <% } %>
+
+
+<div class="header">
+    Here's your cart
+</div>
+
+<div class="container">
+
+
+
+    <div class="ItemsContainer">
+        <% if (!items.length) { %>
+            <div class="no-content"></div>
+        <% } %>
+        <% items.forEach(function(item){ %>
+            <div class="listItem">
+                <div class="listItemIcon">
+                    <img src=<%= item.img_src %> alt=""/>
+                </div>
+                <div class="listItemBody">
+                    <div class="listItemHeader">
+                        <%= item.brand %> <%= item.model %>
+                        <span class="listItemRating">DXOmark rating: <%= item.rating %>
+                  </span>
+                    </div>
+                    <div class="listItemDescription">
+                        <%= item.description %>
+                    </div>
+                </div>
+                <form method="post" class="listItemAction">
+                    <button class="buttonPng buttonDelete" name="deleteItem" value="<%= item.item_no %>"></button>
+                </form>
+            </div>
+        <% }); %>
+    </div>
+
+</div>
+</body>
+
+</html>

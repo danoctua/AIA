@@ -3,117 +3,172 @@ const router = express.Router()
 const mysql = require('mysql');
 
 
-
 router.get('/', (req, res) => {
-    console.log(req.session)
     let result = [];
+
     var connection = mysql.createConnection({
         host: 'localhost',
         user: 'aia_test_user',
         password: 'FSAfewa4fw83;',
         database: 'aia_assignments'
     })
+
+    let local_cart = req.session.cart || [];
+
     connection.connect(function (err) {
-        if (err) throw err;
-        console.log("Connected to database")
+        if (err) {
+            result = []
+            set_alert(req, "Can't connect to the db", "danger")
+            let alertLs = get_alert(req);
+            let alertText = alertLs[0]
+            let alertType = alertLs[1]
+            res.render("index", {
+                "alert": alertText,
+                "items": result,
+                "alert_type": alertType,
+                "local_cart": local_cart
+            });
+        }
+        connection.query("SELECT * FROM items", function (err, result, fields) {
+            if (err) throw err;
+            let alertLs = get_alert(req);
+            let alertText = alertLs[0]
+            let alertType = alertLs[1]
+            res.render("index", {
+                "alert": alertText,
+                "items": result,
+                "alert_type": alertType,
+                "local_cart": local_cart
+            });
+        });
     })
-    let alertText = req.session.alert;
-    res.render("index", {"alert": alertText, "list": result});
+
 })
 
 
 // Access the session as req.session
-router.get('/carr', (req, res) => {
-    res.render("cart", {"alert": req.session.alert, "cartList": req.session.cart})
+router.get('/cart', (req, res) => {
+    let alertText, alertType;
+    let result = []
+    var connection = mysql.createConnection({
+        host: 'localhost',
+        user: 'aia_test_user',
+        password: 'FSAfewa4fw83;',
+        database: 'aia_assignments'
+    })
+
+    connection.connect(function (err) {
+        if (err) {
+
+            console.log(err)
+            set_alert(req, "Can't connect to the db", "danger")
+            let alertLs = get_alert(req);
+            alertText = alertLs[0]
+            alertType = alertLs[1]
+            res.render("cart", {"alert": alertText, "items": result, "alert_type": alertType})
+
+        } else {
+            if (!req.session.cart || !req.session.cart.length) {
+                set_alert(req, "You have to add items first", "warning")
+                let alertLs = get_alert(req);
+                alertText = alertLs[0]
+                alertType = alertLs[1]
+                res.render("cart", {"alert": alertText, "items": result, "alert_type": alertType})
+
+            } else {
+                sql = "SELECT * FROM items WHERE item_no in (?)"
+                let tmp_ls = [];
+                for (item in req.session.cart) {
+                    tmp_ls.push(parseInt(item))
+                }
+                // console.log(connection.query(sql, [tmp_ls]).sql)
+                connection.query(sql, [req.session.cart], function (err, result, fields) {
+                    if (err) throw err;
+                    let alertLs = get_alert(req);
+                    alertText = alertLs[0]
+                    alertType = alertLs[1]
+                    res.render("cart", {"alert": alertText, "items": result, "alert_type": alertType})
+
+                });
+            }
+        }
+
+    })
+
 })
 
+function get_alert(req) {
+    let alert = req.session.alert;
+    let alert_type = req.session.alert_type;
+    req.session.alert = null;
+    req.session.alert_type = null;
+    return [alert, alert_type]
+}
+
+function set_alert(req, alert_text, alert_type) {
+    req.session.alert = alert_text;
+    req.session.alert_type = alert_type
+    return req;
+}
+
 router.post('/', (req, res) => {
-    var manga = {
-        _id: req.body.mangaId,
-        name: req.body.mangaName
+    var item_no = req.body.addToCart;
+
+    console.log("Added", item_no)
+
+    if (!item_no) {
+        set_alert(req, "No item number sent to the server", "danger")
     }
-    // console.log(manga)
 
     if (!req.session.cart) {
         req.session.cart = []
     }
 
-    var isInCart = false
-    req.session.cart.forEach(element => {
-        if (element._id == manga._id) {
-            isInCart = true
+    var exists = false
+    req.session.cart.forEach(ex_item_no => {
+        if (ex_item_no === item_no) {
+            exists = true
         }
     });
-    if (isInCart == false) {
-        req.session.cart.push(manga)
+    if (!exists) {
+        req.session.cart.push(item_no)
+        set_alert(req, "Item has been added to your cart", "success")
     } else {
-        console.log("Element jest juz w koszyku")
+        set_alert(req, "Item already is in your cart", "danger")
+    }
+    res.redirect('/')
+})
+
+
+router.post('/cart', (req, res) => {
+    var item_no = req.body.deleteItem;
+
+    console.log("Removed", item_no)
+    if (!item_no) {
+        set_alert(req, "No item number sent to the server", "danger")
     }
 
-    res.redirect('index')
-})
-
-router.post('/remove', (req, res) => {
-    var manga = {
-        _id: req.body.mangaId,
-        name: req.body.mangaName
-    }
-
-    var index = 0
-    req.session.cart.forEach(element => {
-        // console.log(element._id)
-        if (element._id == manga._id) {
-            req.session.cart.splice(index, 1)
-        }
-        index++
-    });
-    res.redirect('shoppingCart')
-})
-
-router.get('/cancelCart', (req, res) => {
-    req.session.cart = []
-    isCancel = true
-    res.redirect('index')
-})
-
-router.get('/finalizeOrder', (req, res) => {
-
-    // console.log(req.session.cart)
-    var MongoClient = require('mongodb').MongoClient
-
-    MongoClient.connect('mongodb://localhost:27017/', function (err, client) {
-        if (err) throw err
-
-        var db = client.db('myproject')
-
-        req.session.notBougth = []
-        req.session.cart.forEach(element => {
-            // console.log('ForEach: ', element)
-
-            db.collection("mangas").deleteOne({_id: ObjectId(element._id)}, function (err, obj) {
-                if (err) throw err;
-                console.log(obj.result.n + " document(s) deleted");
-                if (obj.result.n != 1) {
-                    console.log("Produkt jest niedstepny: " + element.name)
-                    isNotBought = true
-                    whatIsNotBought += element.name + ", "
-                    whatIsNotBoughtList.push(element)
-                }
-            });
-
-        });
-
-        isBought = true
+    if (!req.session.cart) {
         req.session.cart = []
-        res.redirect('index')
-    })
+        set_alert(req, "No item in the cart", "danger")
+    } else {
+        let local_cart = req.session.cart;
+        let found = false;
+        for (let item_no_ in local_cart) {
+            if (item_no_ === item_no) {
+                req.session.cart.splice(local_cart.indexOf(item_no), 1)
+                console.log("After remove", local_cart, req.session.cart)
+                set_alert(req, "Item has been removed", "success")
+                found = true;
+            }
+        }
+        if (!found) {
+            set_alert(req, "Item is not in the cart", "danger")
+        }
+    }
+    res.redirect('/cart')
+
 })
+
 
 module.exports = router;
-
-// module.exports = {
-//     "app": app,
-//     "router": router,
-// }
-
-
