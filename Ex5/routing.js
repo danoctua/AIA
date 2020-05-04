@@ -230,36 +230,5 @@ function reset_purchase(req) {
     set_alert(req, "Your cart has been cleared", "success")
 }
 
-function finilize_purchase(req) {
-    let sql;
-    let local_cart = get_cart_int(req)
-    var connection = get_mysql_connection()
-
-    connection.connect(function (err) {
-        if (err) {
-            set_alert(req, "Can't connect to the db", "danger")
-            let alertLs = get_alert(req);
-            let alertText = alertLs[0]
-            let alertType = alertLs[1]
-            res.redirect('/cart')
-        }
-        sql = "SELECT * FROM items WHERE item_no in (?)"
-        connection.query(sql, [local_cart], function (err, result, fields) {
-            if (err) set_alert(req, "DB error: " + err, "danger");
-            if (result.length < local_cart.length) {
-                set_alert(req, "One of the products or more were bought by another user in the meantime", "danger")
-            }
-        });
-        sql = "DELETE FROM items WHERE item_no in (?)"
-        connection.query(sql, [local_cart], function (err, result, fields) {
-            if (err) set_alert(req, "DB error: " + err, "danger");
-            set_alert(req, "Purchase has been finalized", "success")
-            console.log("here")
-            success = true;
-        });
-    })
-    return success;
-}
-
 
 module.exports = router;
