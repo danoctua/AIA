@@ -200,3 +200,33 @@ body {
     color: white;
 }
 
+.actions-block {
+    display: flex;
+    justify-content: flex-end;
+}
+
+button.btn {
+    background-color: #636363;
+    padding: 7px 15px;
+    border-radius: 15px;
+    font-weight: 600;
+    color: white;
+    border: none;
+    margin: 5px;
+    cursor: pointer;
+    transition: .3s;
+    outline: none;
+    font-size: 20px;
+}
+
+button.btn-success {
+    background-color: #278227;
+}
+
+button.btn-warning {
+    background-color: #9a8714;
+}
+
+button.btn:hover {
+    opacity: .8;
+}

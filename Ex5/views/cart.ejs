@@ -23,11 +23,10 @@
 </div>
 
 <% if (alert) { %>
-        <div class="alert <% if (alert_type) { %><%= alert_type %><% } %>">
-            <%= alert %>
-        </div>
-    <% } %>
-
+    <div class="alert <% if (alert_type) { %><%= alert_type %><% } %>">
+        <%= alert %>
+    </div>
+<% } %>
 
 <div class="header">
     Here's your cart
@@ -36,31 +35,35 @@
 <div class="container">
 
 
-
     <div class="ItemsContainer">
         <% if (!items.length) { %>
             <div class="no-content"></div>
-        <% } %>
-        <% items.forEach(function(item){ %>
-            <div class="listItem">
-                <div class="listItemIcon">
-                    <img src=<%= item.img_src %> alt=""/>
-                </div>
-                <div class="listItemBody">
-                    <div class="listItemHeader">
-                        <%= item.brand %> <%= item.model %>
-                        <span class="listItemRating">DXOmark rating: <%= item.rating %>
+        <% } else { %>
+            <% items.forEach(function(item){ %>
+                <div class="listItem">
+                    <div class="listItemIcon">
+                        <img src=<%= item.img_src %> alt=""/>
+                    </div>
+                    <div class="listItemBody">
+                        <div class="listItemHeader">
+                            <%= item.brand %> <%= item.model %>
+                            <span class="listItemRating">DXOmark rating: <%= item.rating %>
                   </span>
+                        </div>
+                        <div class="listItemDescription">
+                            <%= item.description %>
+                        </div>
                     </div>
-                    <div class="listItemDescription">
-                        <%= item.description %>
-                    </div>
+                    <form method="post" class="listItemAction">
+                        <button class="buttonPng buttonDelete" name="deleteItem" value="<%= item.item_no %>"></button>
+                    </form>
                 </div>
-                <form method="post" class="listItemAction">
-                    <button class="buttonPng buttonDelete" name="deleteItem" value="<%= item.item_no %>"></button>
-                </form>
-            </div>
-        <% }); %>
+            <% }); %>
+            <form method="post" class="actions-block">
+                    <button class="btn btn-warning" name="reset" value="1">Empty cart</button>
+                    <button class="btn btn-success" name="confirm" value="1">Confirm purchase</button>
+            </form>
+        <% } %>
     </div>
 
 </div>

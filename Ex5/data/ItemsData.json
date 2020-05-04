@@ -5,8 +5,7 @@
       "model": "11",
       "rating": 109,
       "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-      "src": "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-11-pro-select-2019-family_GEO_EMEA?wid=882&amp;hei=1058&amp;fmt=jpeg&amp;qlt=80&amp;op_usm=0.5,0.5&amp;.v=1567812929188",
-      "show": true
+      "src": "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-11-pro-select-2019-family_GEO_EMEA?wid=882&amp;hei=1058&amp;fmt=jpeg&amp;qlt=80&amp;op_usm=0.5,0.5&amp;.v=1567812929188"
     },
     {
       "id": 1,
@@ -14,8 +13,7 @@
       "model": "XR",
       "rating": 101,
       "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-      "src": "https://ecsmedia.pl/c/apple-iphone-xr-64-gb-dual-sim-w-iext53568147.jpg",
-      "show": true
+      "src": "https://ecsmedia.pl/c/apple-iphone-xr-64-gb-dual-sim-w-iext53568147.jpg"
     },
     {
       "id": 2,
@@ -23,8 +21,7 @@
       "model": "Pixel 4",
       "rating": 112,
       "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-      "src": "https://s12emagst.akamaized.net/products/27187/27186567/images/res_d4380666218e3031bedfa8f7a4ae77c1_full.jpg",
-      "show": true
+      "src": "https://s12emagst.akamaized.net/products/27187/27186567/images/res_d4380666218e3031bedfa8f7a4ae77c1_full.jpg"
     },
     {
       "id": 3,
@@ -32,8 +29,7 @@
       "model": "Galaxy S10+",
       "rating": 113,
       "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-      "src": "https://image.ceneostatic.pl/data/products/76441367/i-samsung-galaxy-s10-plus-sm-g975-128gb-prism-white.jpg",
-      "show": true
+      "src": "https://image.ceneostatic.pl/data/products/76441367/i-samsung-galaxy-s10-plus-sm-g975-128gb-prism-white.jpg"
     }
   ]
 }

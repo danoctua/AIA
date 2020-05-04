@@ -26,7 +26,7 @@ var server = app.listen(process.env.PORT || 3000, function () {
     onInit()
 });
 
-
+// test function for creating table and uploading basic list of items
 function onInit() {
     var connection = mysql.createConnection({
         host: 'localhost',

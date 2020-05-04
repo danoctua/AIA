@@ -3,17 +3,32 @@ const router = express.Router()
 const mysql = require('mysql');
 
 
-router.get('/', (req, res) => {
-    let result = [];
-
-    var connection = mysql.createConnection({
+function get_mysql_connection() {
+    return mysql.createConnection({
         host: 'localhost',
         user: 'aia_test_user',
         password: 'FSAfewa4fw83;',
         database: 'aia_assignments'
     })
+}
 
+function get_cart_int(req) {
     let local_cart = req.session.cart || [];
+
+    let tmp_ls = [];
+    for (let i = 0; i < local_cart.length; i++) {
+        tmp_ls.push(parseInt(local_cart[i]))
+    }
+    return tmp_ls
+}
+
+
+router.get('/', (req, res) => {
+    let result = [];
+
+    var connection = get_mysql_connection()
+
+    let local_cart = get_cart_int(req)
 
     connection.connect(function (err) {
         if (err) {
@@ -50,12 +65,7 @@ router.get('/', (req, res) => {
 router.get('/cart', (req, res) => {
     let alertText, alertType;
     let result = []
-    var connection = mysql.createConnection({
-        host: 'localhost',
-        user: 'aia_test_user',
-        password: 'FSAfewa4fw83;',
-        database: 'aia_assignments'
-    })
+    var connection = get_mysql_connection()
 
     connection.connect(function (err) {
         if (err) {
@@ -69,7 +79,9 @@ router.get('/cart', (req, res) => {
 
         } else {
             if (!req.session.cart || !req.session.cart.length) {
-                set_alert(req, "You have to add items first", "warning")
+                if (!req.session.alert) {
+                    set_alert(req, "You have to add items first", "warning")
+                }
                 let alertLs = get_alert(req);
                 alertText = alertLs[0]
                 alertType = alertLs[1]
@@ -77,12 +89,8 @@ router.get('/cart', (req, res) => {
 
             } else {
                 sql = "SELECT * FROM items WHERE item_no in (?)"
-                let tmp_ls = [];
-                for (item in req.session.cart) {
-                    tmp_ls.push(parseInt(item))
-                }
-                // console.log(connection.query(sql, [tmp_ls]).sql)
-                connection.query(sql, [req.session.cart], function (err, result, fields) {
+                let local_cart = get_cart_int(req)
+                connection.query(sql, [local_cart], function (err, result, fields) {
                     if (err) throw err;
                     let alertLs = get_alert(req);
                     alertText = alertLs[0]
@@ -114,8 +122,6 @@ function set_alert(req, alert_text, alert_type) {
 router.post('/', (req, res) => {
     var item_no = req.body.addToCart;
 
-    console.log("Added", item_no)
-
     if (!item_no) {
         set_alert(req, "No item number sent to the server", "danger")
     }
@@ -141,34 +147,119 @@ router.post('/', (req, res) => {
 
 
 router.post('/cart', (req, res) => {
-    var item_no = req.body.deleteItem;
-
-    console.log("Removed", item_no)
-    if (!item_no) {
-        set_alert(req, "No item number sent to the server", "danger")
-    }
-
-    if (!req.session.cart) {
-        req.session.cart = []
-        set_alert(req, "No item in the cart", "danger")
-    } else {
-        let local_cart = req.session.cart;
-        let found = false;
-        for (let item_no_ in local_cart) {
-            if (item_no_ === item_no) {
-                req.session.cart.splice(local_cart.indexOf(item_no), 1)
-                console.log("After remove", local_cart, req.session.cart)
-                set_alert(req, "Item has been removed", "success")
-                found = true;
+    var item_no = req.body.deleteItem
+    let reset = req.body.reset
+    let confirm = req.body.confirm
+    if (item_no) {
+        if (!req.session.cart) {
+            req.session.cart = []
+            set_alert(req, "No item in the cart", "danger")
+        } else {
+            let local_cart = get_cart_int(req)
+            let found = false;
+            for (let i = 0; i < local_cart.length; i++) {
+                if (local_cart[i] === item_no) {
+                    req.session.cart.splice(i, 1)
+                    set_alert(req, "Item has been removed", "success")
+                    found = true;
+                }
+            }
+            if (!found) {
+                set_alert(req, "Item is not in the cart", "danger")
             }
         }
-        if (!found) {
-            set_alert(req, "Item is not in the cart", "danger")
-        }
+        res.redirect('/cart')
+    } else if (reset) {
+        reset_purchase(req)
+        res.redirect('/')
+    } else if (confirm) {
+        let sql;
+        let local_cart = get_cart_int(req)
+        var connection = get_mysql_connection()
+
+        connection.connect(function (err) {
+            if (err) {
+                set_alert(req, "Can't connect to the db", "danger")
+                let alertLs = get_alert(req);
+                let alertText = alertLs[0]
+                let alertType = alertLs[1]
+                res.redirect('/cart')
+            }
+
+            sql = "SELECT * FROM items WHERE item_no in (?)"
+            connection.query(sql, [local_cart], function (err, result, fields) {
+                if (err) set_alert(req, "DB error: " + err, "danger");
+                if (result.length < local_cart.length) {
+                    set_alert(req, "One of the products or more were bought by another user in the meantime. They has been removed from your cart", "danger")
+                    let to_remove = []
+                    for (let i = 0; i < local_cart.length; i++){
+                        let found = false;
+                        for( let j = 0; j < result.length; j++ ){
+                            if (local_cart[i] === result[j]){
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found){
+                            to_remove.push(i)
+                        }
+                    }
+                    for (let i in to_remove.reverse()){
+                        req.session.cart.splice(i, 1);
+                    }
+                    res.redirect("/cart")
+                } else {
+                    sql = "DELETE FROM items WHERE item_no in (?)"
+                    connection.query(sql, [local_cart], function (err, result, fields) {
+                        if (err) set_alert(req, "DB error: " + err, "danger");
+                        set_alert(req, "Purchase has been finalized", "success")
+                        req.session.cart = []
+                        res.redirect('/')
+                    });
+                }
+            });
+        })
+
     }
-    res.redirect('/cart')
+
 
 })
+
+function reset_purchase(req) {
+    req.session.cart = []
+    set_alert(req, "Your cart has been cleared", "success")
+}
+
+function finilize_purchase(req) {
+    let sql;
+    let local_cart = get_cart_int(req)
+    var connection = get_mysql_connection()
+
+    connection.connect(function (err) {
+        if (err) {
+            set_alert(req, "Can't connect to the db", "danger")
+            let alertLs = get_alert(req);
+            let alertText = alertLs[0]
+            let alertType = alertLs[1]
+            res.redirect('/cart')
+        }
+        sql = "SELECT * FROM items WHERE item_no in (?)"
+        connection.query(sql, [local_cart], function (err, result, fields) {
+            if (err) set_alert(req, "DB error: " + err, "danger");
+            if (result.length < local_cart.length) {
+                set_alert(req, "One of the products or more were bought by another user in the meantime", "danger")
+            }
+        });
+        sql = "DELETE FROM items WHERE item_no in (?)"
+        connection.query(sql, [local_cart], function (err, result, fields) {
+            if (err) set_alert(req, "DB error: " + err, "danger");
+            set_alert(req, "Purchase has been finalized", "success")
+            console.log("here")
+            success = true;
+        });
+    })
+    return success;
+}
 
 
 module.exports = router;

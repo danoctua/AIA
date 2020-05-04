@@ -56,11 +56,10 @@
                     </div>
                 </div>
                 <form method="post" class="listItemAction">
-                    <% if (!(item.item_no in local_cart)) { %>
+                    <% if (!(local_cart.includes(item.item_no))) { %>
                         <button class="buttonPng buttonAdd" name="addToCart" value="<%= item.item_no %>"></button>
                     <% }else { %>
                         <button disabled class="buttonPng buttonDone"></button>
-
                     <% } %>
                 </form>
             </div>
