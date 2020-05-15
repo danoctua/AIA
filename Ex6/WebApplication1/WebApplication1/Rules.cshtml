@@ -1,0 +1,46 @@
+﻿@{
+    var rules = new List<string>();
+
+    if (Session["rules"] == null) {
+        rules = new List<string>{
+            "You do not talk about fight club...",
+            "You DO NOT talk about the fight...until it is over",
+            "Someone yells stop, goes limp, taps out, the fight is over",
+            "Only 2 guys to a fight...",
+            "One fight at a time, fellas",
+            "No shirt, No shoes, No RATs",
+            "The fight will go as long as it has to... ",
+            "If this is your first night at fight club, you have to fight"
+        };
+        Session["rules"] = rules;
+    }
+    rules = (List<string>)Session["rules"];
+
+    if (IsPost)
+    {
+        string newRule = Request["rule"];
+        rules.Add(newRule);
+        Session["rules"] = rules;
+        Response.Redirect("Rules.cshtml");
+    }
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <ol>
+        @foreach (string rule in rules)
+        {
+            <li>@rule</li>
+        }
+    </ol>
+    <form method="post" action="~/Rules.cshtml">
+        <input type="text" name="rule" />
+        <input type="submit" />
+    </form>
+</body>
+</html>

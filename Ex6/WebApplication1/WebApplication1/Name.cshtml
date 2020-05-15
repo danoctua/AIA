@@ -1,0 +1,25 @@
+﻿@{
+    string name = "Robert Paulson";
+    if (!Request["name"].IsEmpty())
+    {
+        name = Request["name"];
+    }
+
+    var method = IsPost ? "POST" : "GET";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <ul>
+        @for (int i = 0; i < 10; i++)
+        {
+            <li>His name is @name</li>
+        }
+    </ul>
+    <p>Type @method</p>
+</body>
+</html>
